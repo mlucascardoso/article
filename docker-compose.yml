@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+    backend:
+        build: .
+        command: npm run dev # add this to package.json file scripts
+        ports:
+            - "8080:8080"
+        volumes:
+            - .:/usr/src/app
+            - nodemodules:/usr/src/app/node_modules
+        networks:
+            - development-network
+        depends_on:
+            - "postgres"
+    postgres:
+        image: postgres:latest
+        container_name: article-db
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: article
+        ports:
+            - "5432:5432"
+        volumes:
+            - ".database/data:/var/lib/postgressql/data"
+        networks:
+            - development-network
+
+volumes:
+    nodemodules: {}
+
+networks:
+    development-network:
+        driver: bridge
