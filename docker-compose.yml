@@ -4,11 +4,12 @@ services:
     backend:
         build: .
         command: npm run dev # add this to package.json file scripts
+        container_name: article-api
         ports:
             - "8080:8080"
         volumes:
             - .:/usr/src/app
-            - nodemodules:/usr/src/app/node_modules
+            - /usr/src/app/node_modules
         networks:
             - development-network
         depends_on:
